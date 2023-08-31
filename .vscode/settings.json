@@ -34,5 +34,10 @@
   "workbench.iconTheme": "material-icon-theme",
   "cSpell.words": [
     "airbnb"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#17148E",
+    "titleBar.activeBackground": "#211DC7",
+    "titleBar.activeForeground": "#FAF9FE"
+  }
 }
