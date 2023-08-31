@@ -1,14 +1,16 @@
+import { IMessage } from '../../@types';
+import { useAppSelector } from '../../hooks/hooks';
 import Message from '../Message/Message';
 
 function Messages() {
-  return (
-    <>
-      <Message author="toto" newMessage="1er message" />
-      <Message author="tata" newMessage="2eme message" />
-      <Message author="titi" newMessage="3eme message" />
-      <Message author="tutu" newMessage="4eme message" />
-    </>
-  );
+  const messages = useAppSelector((state) => state.messages);
+  return messages.map((message: IMessage) => (
+    <Message
+      key={message.id}
+      author={message.author}
+      newMessage={message.content}
+    />
+  ));
 }
 
 export default Messages;
