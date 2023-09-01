@@ -1,3 +1,28 @@
-.chatBox {
-  border: 1px solid black;
+@use '../../styles/variables' as v;
+
+.message {
+  margin-bottom: 1rem;
+
+  &-author {
+    margin: 0 2rem;
+
+    &::after {
+      content: ''; // meme si pas de contenu propriété content obligatoire
+      width: 0;
+      height: 0;
+      border-left: 1rem solid transparent;
+      border-bottom: 1rem solid v.$color;
+      display: block;
+    }
+  }
+
+  &-content {
+    border-radius: 1.6rem;
+    background-color: #ffffff;
+    color: v.$color-text;
+    padding: 1.2rem;
+    display: inline-block; // la bulle prenne pas toute la ligne mais uniquement la largeur du contenu
+    min-width: 10em;
+    text-align: left;
+  }
 }

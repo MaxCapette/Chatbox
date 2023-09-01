@@ -1,16 +1,12 @@
+import { IMessage } from '../../@types/chat';
 import './Message.scss';
 
-interface MessageProps {
-  newMessage: string;
-  author: string;
-}
-
-function Message({ newMessage, author }: MessageProps) {
+function Message({ author, content, id }: IMessage) {
   return (
-    <>
-      <h2>{author}</h2>
-      <div className="chatBox">{newMessage}</div>
-    </>
+    <div className="message">
+      <div className="message-author">{author}</div>
+      <div className="message-content">{content}</div>
+    </div>
   );
 }
 

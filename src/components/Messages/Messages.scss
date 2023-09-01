@@ -1,0 +1,8 @@
+@use '../../styles/variables' as v;
+
+.messages {
+  background-color: v.$color-primary;
+  padding: 2rem;
+  height: calc(100% - 4rem); // 100% - la hauteur du form
+  overflow: auto; // on ajoute une scroll bar pour voir le dépassement si jamais le contenu dépasse de la hauteur fixée ci dessus
+}

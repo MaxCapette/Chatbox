@@ -1,16 +1,59 @@
-import { IMessage } from '../../@types';
-import { useAppSelector } from '../../hooks/hooks';
+// https://redux-toolkit.js.org/api/other-exports
+import { nanoid } from '@reduxjs/toolkit';
+import { useRef, useEffect } from 'react';
+
+import './Messages.scss';
 import Message from '../Message/Message';
+import { useAppSelector } from '../../hooks/hooks';
 
 function Messages() {
-  const messages = useAppSelector((state) => state.messages);
-  return messages.map((message: IMessage) => (
-    <Message
-      key={message.id}
-      author={message.author}
-      newMessage={message.content}
-    />
-  ));
+  // on prepare notre ref (une variable) avec useRef on lui donne en param la valeur initiale
+  // dans notre cas la valeur initiale est vide car le DOM n'est pas pret , le node n'existe pas encore
+  // dans le JSX on a précisé <div className="messages" ref={messagesDivRef}>
+  // que cette ref doit etre liée avec le div .messages
+  const messagesDivRef = useRef<HTMLDivElement>(null);
+
+  // on veut recuperer la liste des messages du state pour afficher un composant Messsage pour chaque message du state
+  // on va recuperer le state avec useSelector mais il sera pas typé, on voudrait recuperer son type avec donc on va plutot utiliser un hook custom qui type le state renvoyé
+  const messageList = useAppSelector((state) => state.chat.messages);
+  console.log(messageList);
+
+  // TODO: faire scroll le div messages si un nouveau message est ajouté dans le state
+  /*
+  A chaque fois qu'un message est ajouté dans le state le composant Messages est re rendu
+  parce qu'il est abonné à la liste des messages
+  on veut scroller,  on va placer notre modification du DOM dan sun useEffect comme il s'agit de modifier le DOM il faut attendre que la reconciliation au eu lieu, donc on le fait APRES le rendu
+  */
+
+  useEffect(() => {
+    // on joue cet effet après chaque rendu aucours duquel messageList a changé
+    console.log('on a ajouté un message , on scroll');
+
+    // la variable ici est re creée à chaque effet, on va re chercher le div dans le DOM à chaque effet
+    // const divMessages = document.querySelector('.messages');
+    // plutot que d'aller chercher dans le DOM un div on va plutot associer une ref à sa version JSX
+    // et quand le DOM sera pret react viendra placer le node dans la ref
+    // la ref gardera sa valeur d'un rendu à l'autre
+    // dans la ref, la valeur est placée sous un propriété appelée current
+    const divMessages = messagesDivRef.current; // on recupere le div depusi la ref
+    const divMessageHeight = divMessages?.scrollHeight; // on recupere la hauteur du div
+    document.querySelector('.messages')?.scrollTo({
+      top: divMessageHeight, // on scroll ke div de toute sa hauteur
+      behavior: 'smooth',
+    });
+  }, [messageList]);
+
+  return (
+    <div className="messages" ref={messagesDivRef}>
+      {messageList.map((message) => (
+        // avec le spread operator on fait passer toutes les propriétés de l'objet message en prop dans le composant Message
+        // {...message}
+        // équivalent à :
+        // author={message.author} content={message.content} id={message.id}
+        <Message {...message} key={nanoid()} />
+      ))}
+    </div>
+  );
 }
 
 export default Messages;

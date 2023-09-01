@@ -1,38 +1,42 @@
-import { ChangeEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
+import './Form.scss';
 import { useDispatch } from 'react-redux';
-import {
-  actionChangeMessage,
-  actionSendMessage,
-} from '../../reducers/messageReducer';
+import { Send } from 'react-feather';
 import { useAppSelector } from '../../hooks/hooks';
-import { IMessage } from '../../@types';
+import {
+  actionAddMessage,
+  actionChangeNewMessageContent,
+} from '../../reducers/chatReducer';
 
 function Form() {
-  const newMessage = useAppSelector((state) => state.newMessage);
+  const value = useAppSelector((state) => state.chat.newMessageContent);
   const dispatch = useDispatch();
-  const messageToSend: IMessage = {
-    author: 'Super Chat', // Assuming the author remains the same
-    content: newMessage, // Use the newMessage string as the content
-    // le newMessage est dispo dans le state de redux ... pas besoin de lui filer dans le payload ;)
-    // on a fait un .push, pas sur que ce soit la bonne solutio
-    // si ça marche pke on a toolkit !! si on avait un reducer classique sans le builder ça marcherai pas !
-  };
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(actionChangeMessage(event.target.value));
-  };
-  const handleSubmit = (event: React.FormEvent) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    dispatch(actionSendMessage(messageToSend));
-  };
+    console.log('on a validé le form on veut ajouter le message dans le state');
+    if (value.trim()) {
+      dispatch(actionAddMessage());
+    }
+  }
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, []);
   return (
     <form className="form" onSubmit={handleSubmit}>
       <input
+        ref={inputRef}
+        className="form-input"
         type="text"
-        value={newMessage}
-        className="form-item"
-        placeholder="Ajouter un message"
-        onChange={handleChange}
+        value={value}
+        onChange={(event) => {
+          dispatch(actionChangeNewMessageContent(event.target.value));
+        }}
       />
+      <button className="form-btn" type="submit">
+        <Send size={42} />
+      </button>
     </form>
   );
 }

@@ -1,0 +1,21 @@
+@use '../../styles/variables' as v;
+
+.form {
+  height: 4rem;
+  display: flex;
+
+  &-input {
+    width: 100%;
+    border: 0;
+    padding: 2rem;
+    font-size: 1.2em;
+  }
+
+  &-btn {
+    width: 5rem;
+    border: 0;
+    background-color: v.$color;
+    color: v.$color-text;
+    cursor: pointer;
+  }
+}
