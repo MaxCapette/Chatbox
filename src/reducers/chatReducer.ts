@@ -9,23 +9,7 @@ interface ChatState {
 // ----- STATE INITIAL -----
 const initialState: ChatState = {
   // on stocke la liste des messages = un tableau d'objets
-  messages: [
-    {
-      id: 1,
-      author: 'Super Toutou',
-      content: 'Salut',
-    },
-    {
-      id: 2,
-      author: 'Super Toutou',
-      content: 'Comment chat va ?',
-    },
-    {
-      id: 3,
-      author: 'Super Toutou',
-      content: "T'as pas des super croquettes ?",
-    },
-  ],
+  messages: [],
   // on stocke la valeur de l'input du form
   newMessageContent: '',
 };
@@ -53,19 +37,9 @@ const chatReducer = createReducer(initialState, (builder) => {
         author: 'super Toutou',
         content: state.newMessageContent, // on a accès aux infos du state
       };
-      // ajout à la suite des message existants dans le state
-      state.messages.push(newMessage);
-      // on peut en profiter pour vider la valeur de l'input : vu que l'input est controlé dans le state de redux le reducer peut le faire direct
-      state.newMessageContent = '';
 
-      /*
-      si on était pas avec toolkit on n'aurai pas le droit de fair eun push sur une partie du state, il faudrait renvoyer un nouvel objet state
-      const newState = {
-        ...state,
-        messages: [...state.messages, newMessage],
-        newMessageContent: '',
-      };
-      */
+      state.messages.push(newMessage);
+      state.newMessageContent = '';
     });
 });
 

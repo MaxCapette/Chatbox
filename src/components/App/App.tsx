@@ -5,9 +5,10 @@ import Messages from '../Messages/Messages';
 import './App.scss';
 
 function App() {
+  const isSettings = true;
   return (
     <div className="app">
-      <Settings />
+      {isSettings && <Settings />}
       <Messages />
       <Form />
     </div>
