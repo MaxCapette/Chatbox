@@ -2,6 +2,16 @@
 
 .message {
   margin-bottom: 1rem;
+  animation: popBubble 0.5s 1 ease-in-out;
+
+  &--mine {
+    text-align: right;
+
+    .message-author::after {
+      // pseudo element petite fleche
+      margin-left: auto;
+    }
+  }
 
   &-author {
     margin: 0 2rem;
@@ -24,5 +34,20 @@
     display: inline-block; // la bulle prenne pas toute la ligne mais uniquement la largeur du contenu
     min-width: 10em;
     text-align: left;
+  }
+}
+
+@keyframes popBubble {
+  0% {
+    transform: scale(0) rotateX(90deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotateX(-10deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1) rotateX(0deg);
+    opacity: 1;
   }
 }

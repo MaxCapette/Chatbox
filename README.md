@@ -67,20 +67,20 @@ Objectif : construire la ChatRoom
 
 - <details><summary>Solution pour créer le store</summary>
 
-    ```ts
-    import { configureStore } from '@reduxjs/toolkit';
-    import monReducer from 'chemin/vers/reducer';
-    const store = configureStore({
-      reducer: {
-        chat: monReducer, // Je renseigne mon reducer
-      },
-    });
-    export default store;
-    // Je déduis le type `RootState` et `AppDispatch` depuis le store lui même
-    export type RootState = ReturnType<typeof store.getState>;
-    // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-    export type AppDispatch = typeof store.dispatch;
-    ```
+  ```ts
+  import { configureStore } from '@reduxjs/toolkit';
+  import monReducer from 'chemin/vers/reducer';
+  const store = configureStore({
+    reducer: {
+      chat: monReducer, // Je renseigne mon reducer
+    },
+  });
+  export default store;
+  // Je déduis le type `RootState` et `AppDispatch` depuis le store lui même
+  export type RootState = ReturnType<typeof store.getState>;
+  // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+  export type AppDispatch = typeof store.dispatch;
+  ```
 
     </details>
 
@@ -90,21 +90,20 @@ Objectif : construire la ChatRoom
   - il nous faut la liste des messages initiaux dans le state
 - <details><summary>Solution pour créer le reducer</summary>
 
-    ```js
-    interface ReducerState {
-      /*
-        spécifier le type de notre state
-      */
-    }
-    const initialState = {
-      /* 
-        ranger les messages initiaux dans le state
-      */
-    };
-    const monReducer = createReducer(initialState, () => {
-    });
-    export default monReducer;
-    ```
+  ```js
+  interface ReducerState {
+    /*
+      spécifier le type de notre state
+    */
+  }
+  const initialState = {
+    /* 
+      ranger les messages initiaux dans le state
+    */
+  };
+  const monReducer = createReducer(initialState, () => {});
+  export default monReducer;
+  ```
 
     </details>
 
@@ -134,45 +133,46 @@ Puis il faut pouvoir modifier la valeur de ce champ, pour cela on passe à l'ét
 **9 - useDispatch** : émission d'intentions
 
 - **Event :** dans les composants on réagit à des interactions
+
   - on ajoute un écouteur via une prop `onClick`, `onSubmit`, `onChange`, ... dans le composant
   - <details><summary>Un peu d'aide</summary>
 
-      ```jsx
-      // mon composant
-      const Composant = () => {
-        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-          console.log(event.target.value);
-          // Ici j'ai l'intention de changer la valeur du champ
-        }
-        return (
-          <form>
-            <input onChange={handleChange} />
-          </form>
-        );
+    ```jsx
+    // mon composant
+    const Composant = () => {
+      const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // Ici j'ai l'intention de changer la valeur du champ
       };
-      ```
+      return (
+        <form>
+          <input onChange={handleChange} />
+        </form>
+      );
+    };
+    ```
 
       </details>
 
   - oui mais quoi faire quand l'event a lieu ? on va émettre une intention :arrow_down:
+
 - **Dispatch d'une Action :** émission d'une intention
   - on appelle le hook `useDispatch` fourni par react-redux pour récupérer la fonction `dispatch` capable d'émettre une intention
   - on fait en sorte de dispatcher une action en réponse à une interaction
   - Prépare l'**action** qui va bien
   - Quand l'intention est émise, plus qu'à la traduire dans les faits
 - **Reducer** = un traducteur d'intentions
+
   - Dispatcher, c'est appeler la méthode dispatch du store. On fait donc travailler notre store qui va appeler le reducer et lui passer l'action pour savoir comment le state doit évoluer
   - on ajoute un `case` dans notre reducer pour gérer le cas de cette action et décrire comment devra évoluer le state en fonction de l'action
   - <details><summary>Un exemple ?</summary>
 
-      ```js
-        const monReducer = createReducer(initialState, (builder) => {
-          builder
-            .addCase(monActionAvecParams, (state, action) => {
-              state.yeah = action.payload;
-            });
-        });
-      ```
+    ```js
+    const monReducer = createReducer(initialState, (builder) => {
+      builder.addCase(monActionAvecParams, (state, action) => {
+        state.yeah = action.payload;
+      });
+    });
+    ```
 
       </details>
 

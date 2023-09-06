@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { IMessage } from '../@types/chat';
 
@@ -17,10 +18,13 @@ const initialState: ChatState = {
 // ----- ACTION CREATORS -----
 // action dispatchée au moement ou un user tape une lettre dans l'input du composant Form
 export const actionChangeNewMessageContent = createAction<string>(
-  'CHANGE_NEW_MESSAGE_VALUE'
+  'chat/CHANGE_NEW_MESSAGE_VALUE'
 );
-// action dispatché au moement ou le user valide le formulaire d'ajout de message
-export const actionAddMessage = createAction('ADD_MESSAGE');
+// action dispatché au moment ou le user valide le formulaire d'ajout de message
+// quand on execute l'action creator on reçoit une action
+// { type: 'chat/ADD_MESSAGE' }
+// cet action creator va prendre en payload le message de type IMessage
+export const actionAddMessage = createAction<IMessage>('chat/ADD_MESSAGE');
 
 // ----- REDUCER -----
 const chatReducer = createReducer(initialState, (builder) => {
@@ -31,15 +35,22 @@ const chatReducer = createReducer(initialState, (builder) => {
       state.newMessageContent = action.payload;
     })
     .addCase(actionAddMessage, (state, action) => {
-      // creation du nouvel objet message
-      const newMessage = {
-        id: 99, // tous les id sont 99, ce n'est pas grave plus tard ils seront créés par le back : faudrait faire une fonction qui genere un id unique qui n'existe pas encore dans la liste du state.
-        author: 'super Toutou',
-        content: state.newMessageContent, // on a accès aux infos du state
-      };
+      // recuperer le message qui vient du back qui a été envoyé par le serveur websocket dans le payload de l'action addMessage
 
-      state.messages.push(newMessage);
-      state.newMessageContent = '';
+      // ajout à la suite des message existants dans le state
+      state.messages.push(action.payload);
+
+      // on peut en profiter pour vider la valeur de l'input : vu que l'input est controlé dans le state de redux le reducer peut le faire direct
+      // state.newMessageContent = '';
+
+      /*
+      si on était pas avec toolkit on n'aurai pas le droit de fair eun push sur une partie du state, il faudrait renvoyer un nouvel objet state
+      const newState = {
+        ...state,
+        messages: [...state.messages, newMessage],
+        newMessageContent: '',
+      };
+      */
     });
 });
 

@@ -2,35 +2,53 @@
 
 .settings {
   position: fixed;
+  right: 1rem;
+  top: 1rem;
   display: flex;
-  top: 20px;
-  right: 20px;
-  background-color: v.$color-bg;
-  padding: 5px;
-  border-radius: 5px;
-  &-closeButton {
+  // de base on cache le bloc settings sur le coté droit
+  transform: translateX(85%);
+  transition: 0.5s;
+
+  &--open {
+    // si y'a la classe --open on remet le bloc visible
+    transform: translateX(0);
+
+    .settings-button {
+      // on fait tourner le bouton plus de 45 degres pour qu'il soit une croix
+      transform: rotate(45deg);
+    }
+  }
+
+  &-button {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0.5rem;
+    background-color: #ffffff;
     border-radius: 50%;
     border: none;
-    height: 25px;
-    width: 25px;
-    padding: 0;
-    margin: 5px;
-    background-color: v.$color;
+    color: v.$color-text;
   }
-  &-input {
+
+  &__form {
     display: flex;
     flex-direction: column;
+  }
 
-    & > * {
-      margin-bottom: 10px;
-      border-radius: 8px;
-      margin: 5px;
-      padding: 5px;
-      border: none;
-    }
-    &-send {
-      background-color: v.$color-button;
-      color: v.$color;
-    }
+  &-input {
+    padding: 0.3rem;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    background-color: #ffffff;
+    font-size: 0.8em;
+  }
+
+  &-submit {
+    color: #ffffff;
+    background-color: v.$color-text;
+    border: none;
+    border-radius: 10px;
+    padding: 0.3rem;
+    font-size: 0.8em;
   }
 }

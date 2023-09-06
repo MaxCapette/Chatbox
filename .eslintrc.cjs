@@ -21,18 +21,22 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  overrides: [
-    {
-      files: ['src/**/store/**/*.ts'],
-      rules: { 'no-param-reassign': ['error', { props: false }] },
+  overrides: [{
+    files: ['src/**/store/**/*.ts'],
+    rules: {
+      'no-param-reassign': ['error', {
+        props: false
+      }]
     },
-  ],
+  }, ],
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'react/react-in-jsx-scope': 0,
     'react/jsx-filename-extension': [
       2,
-      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+      {
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
+      },
     ],
     'import/extensions': [
       'error',
@@ -45,7 +49,9 @@ module.exports = {
       },
     ],
     'react/jsx-props-no-spreading': 0,
-    'jsx-a11y/label-has-associated-control': [2, { assert: 'either' }],
+    'jsx-a11y/label-has-associated-control': [2, {
+      assert: 'either'
+    }],
     'linebreak-style': 0,
     'no-restricted-imports': 0,
     '@typescript-eslint/no-restricted-imports': [
@@ -53,8 +59,7 @@ module.exports = {
       {
         name: 'react-redux',
         importNames: ['useSelector', 'useDispatch'],
-        message:
-          'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
+        message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
     ],
   },
