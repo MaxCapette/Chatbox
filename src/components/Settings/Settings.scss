@@ -9,6 +9,12 @@
   transform: translateX(85%);
   transition: 0.5s;
 
+  &-error {
+    color: rgb(219, 93, 93);
+    font-style: italic bold;
+    text-align: center;
+  }
+
   &--open {
     // si y'a la classe --open on remet le bloc visible
     transform: translateX(0);

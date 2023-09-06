@@ -9,6 +9,7 @@ const initialState = {
   password: '',
   pseudo: null,
   isConnected: false,
+  errorMessage: null,
 };
 
 // ----- ACTION CREATORS -----
@@ -40,8 +41,13 @@ const settingsReducer = createReducer(initialState, (builder) => {
       // cette action arrive dans le reducer quand elle est dispatché au click sur le bouton deconnexion : on met alors isConnected à false
       state.isConnected = false;
       state.pseudo = null;
+      state.errorMessage = null;
+    })
+    // un autre case dans le cas ou on reçoit checklogin rejected pour enregistrer un message d'erreur dans le state
+    .addCase(actionCheckLogin.rejected, (state, action) => {
+      // cette action arrive dans le reducer quand elle est dispatché au click sur le bouton deconnexion : on met alors isConnected à false
+      state.errorMessage = 'WRONG! Try again';
     });
-  // un autre case dans le cas ou on reçoit checklogin rejected pour enregistrer un message d'erreur dans le state
   // un autre case dans le cas ou on reçoit pending pour mettre un isLoading à true et afficher un loader
   // l'affichage du pseudo, un message de bienvenue ...
 });

@@ -11,6 +11,23 @@ import useSound from '../../hooks/useSound';
 import boing from '../../assets/sound/boing.mp3';
 
 function Settings() {
+  /*
+  Challenge gestion d'erreur : 
+
+  - on veut afficher en petit en rouge un message d'erreur
+  - on va prévoir dans notre state redux (tiroir settings) un emplacement pour stocker le message (au debut null)
+  - on va s'en servir dans le JSX : si le message n'est pas null on l'affiche !
+  - ajouter un case dans le reducer pour traiter l'action actionCheckLogin.rejected
+  - dans ce case modifier le message du state
+  - si la connexion a réussit : actionCheckLogin.fullfiled remettre le message d'erreur à null
+
+  - BONUS : afficher un loader pendant le temps de la requete !
+    - prévoir dan sle state un emplacement pour stocker isLoading
+    - passer isLoading à true dans le reducer quand il reçoit actionCheckLogin.pending
+    - repasser isLoading à false dans le reducer actionCheckLogin.rejected ou actionCheckLogin.fullfiled
+    - se servir de la donnée du state isLoading pour afficher un loader (ou un message en cours ...) si le booleen est à true
+  */
+
   const [isOpen, setIsOpen] = useState(false);
   useSound(boing, isOpen);
   const dispatch = useAppDispatch();
@@ -51,6 +68,7 @@ function Settings() {
     // je veux modifier le state de redux = je dispatch une demande
     dispatch(getActionDisconnect());
   };
+  const errorMessage = useAppSelector((state) => state.settings.errorMessage);
 
   return (
     <div className={isOpen ? 'settings settings--open' : 'settings '}>
@@ -77,7 +95,7 @@ function Settings() {
           {/* on utilise le CustomInput qui genere un input controlé par redux */}
           <ControlledInput name="email" />
           <ControlledInput name="password" type="password" />
-
+          {errorMessage && <div className="settings-error">{errorMessage}</div>}
           <button className="settings-submit" type="submit">
             Envoyer
           </button>
