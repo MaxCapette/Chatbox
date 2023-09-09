@@ -18,17 +18,17 @@ function App() {
   return (
     <div className="app">
       <Settings />
-      {isLoading ? (
-        <Spinner />
-      ) : // si on est pas connecté on affiche pas le composant Messages ni Form
-      isConnected ? (
-        <>
-          <Messages />
-          <Form />
-        </>
-      ) : (
-        <div>Veuillez vous connecter</div>
-      )}
+      {
+        // si on est pas connecté on affiche pas le composant Messages ni Form
+        isConnected ? (
+          <>
+            <Messages />
+            <Form />
+          </>
+        ) : (
+          <Spinner />
+        )
+      }
     </div>
   );
 }

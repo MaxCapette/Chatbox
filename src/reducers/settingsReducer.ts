@@ -2,7 +2,15 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { actionCheckLogin } from '../middlewares/settingsMiddleware';
 
-const initialState = {
+interface ISettingsState {
+  email: string;
+  password: string;
+  pseudo: null | string;
+  isConnected: boolean;
+  errorMessage: null | string;
+}
+
+const initialState: ISettingsState = {
   // email et password sont les valeurs des inputs du bloc settings
   // ces 2 données permettent de controller les input
   email: '',
